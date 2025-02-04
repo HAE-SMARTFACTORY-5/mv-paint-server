@@ -1,14 +1,14 @@
 from fastapi import HTTPException
 import mysql.connector
 from infra.database import getDbConnection
-from dto.papercupResponse import PapercupResponse
+from dto import papercupDto
 
 
 def findAll():
     query = '''
         SELECT *
-        FROM papercup
-        ORDER BY papercup.created_at DESC
+        FROM papercup as pc
+        ORDER BY pc.created_at DESC
     '''
     try:
         connection = getDbConnection()
@@ -18,11 +18,9 @@ def findAll():
         results = cursor.fetchall()
 
         return [
-            PapercupResponse(
+            papercupDto.SimpleResponse(
                 papercupId=row['papercup_id'], 
                 errorStatus=row['error_status'],
-                imageUrl=row['image_url'],
-                colorType=row['color_type'],
                 createdAt=row['created_at'],
             ) for row in results
         ]
