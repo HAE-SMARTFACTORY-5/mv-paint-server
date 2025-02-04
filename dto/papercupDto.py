@@ -1,7 +1,12 @@
 from pydantic import NaiveDatetime, BaseModel
 from typing import Optional
 
-class PapercupResponse(BaseModel):
+class SimpleResponse(BaseModel):
+    papercupId: int
+    errorStatus: bool
+    createdAt: NaiveDatetime
+
+class DetailResponse(BaseModel):
     papercupId: int
     errorStatus: bool
     imageUrl: str
