@@ -1,10 +1,18 @@
 from fastapi import FastAPI
 from router import papercupRouter
+from router import imageRouter
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import os
+
 
 app = FastAPI()
-app.include_router(papercupRouter.api)
+app.include_router(papercupRouter.api, prefix='/papercups')
+app.include_router(imageRouter.api, prefix='/images')
+
+# 저장 폴더가 없으면 생성
+UPLOAD_DIR = "images"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 origins = ["*"]
 
