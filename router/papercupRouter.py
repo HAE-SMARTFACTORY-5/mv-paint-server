@@ -4,14 +4,14 @@ from dto import papercupDto
 
 api = APIRouter()
 
-@api.get("/papercups")
+@api.get("")
 def getAllPapercups() -> list[papercupDto.SimpleResponse]:
     return papercupService.findAllPapercup()
 
-@api.get("/papercups/{papercupId}")
+@api.get("/{papercupId}")
 def getPapercupDetails(papercupId) -> papercupDto.DetailResponse:
     return papercupService.findByPapercupId(papercupId)
 
-@api.post("/papercups")
+@api.post("")
 def getPapercupDetails(saveRequest: papercupDto.SaveRequest) -> papercupDto.SimpleResponse:
     return papercupService.savePapercup(saveRequest)
