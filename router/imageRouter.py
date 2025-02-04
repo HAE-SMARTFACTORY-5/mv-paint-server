@@ -4,7 +4,7 @@ import shutil
 import os
 import uuid
 
-UPLOAD_DIR = "images" # 이미지 저장 위치
+UPLOAD_DIR = 'images'
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif"} # 허용할 이미지 확장자 목록
 
 api = APIRouter()
@@ -23,4 +23,4 @@ def upload_file(file: UploadFile = File(...)):
     with open(filePath, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    return imageDto.PathResponse(imagePath=filePath)
+    return imageDto.PathResponse(imagePath='static/'+filePath)
