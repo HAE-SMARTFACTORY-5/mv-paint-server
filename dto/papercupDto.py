@@ -10,9 +10,9 @@ class DetailResponse(BaseModel):
     papercupId: int
     errorStatus: bool
     imageUrl: str
-    colorType: Optional[str] = None
+    errorType: list
     createdAt: NaiveDatetime
 
 class SaveRequest(BaseModel):
     imageUrl: str
-    colorType: Optional[str] = None
+    errorType: list

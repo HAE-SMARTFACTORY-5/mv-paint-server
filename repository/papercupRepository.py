@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 import mysql.connector
 from dto import papercupDto
+import json
 
 
 def findAll(connection):
@@ -43,7 +44,7 @@ def findById(papercupId, connection):
                 papercupId=result['papercup_id'], 
                 errorStatus=result['error_status'],
                 imageUrl=result['image_url'],
-                colorType=result['color_type'],
+                errorType=json.loads(result['error_type']),
                 createdAt=result['created_at'],
             )
     except mysql.connector.Error as e:
@@ -54,14 +55,13 @@ def findById(papercupId, connection):
 
 def save(saveRequest, errorStatus, connection):
     query = '''
-        INSERT INTO papercup (error_status, image_url, color_type)
+        INSERT INTO papercup (error_status, image_url, error_type)
         VALUES (%s, %s, %s)
     '''
     try:
         cursor = connection.cursor(dictionary=True)
-
-        cursor.execute(query, [errorStatus, saveRequest.imageUrl, saveRequest.colorType])
-        
+        errorTypes = json.dumps(saveRequest.errorType)
+        cursor.execute(query, [errorStatus, saveRequest.imageUrl, errorTypes])
     except mysql.connector.Error as e:
         raise HTTPException(status_code=500, detail=f"Error findByPapercupId(): {e}")
     finally:
