@@ -12,3 +12,7 @@ class DetailResponse(BaseModel):
     imageUrl: str
     colorType: Optional[str] = None
     createdAt: NaiveDatetime
+
+class SaveRequest(BaseModel):
+    imageUrl: str
+    colorType: Optional[str] = None

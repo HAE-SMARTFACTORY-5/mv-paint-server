@@ -11,4 +11,7 @@ def getAllPapercups() -> list[papercupDto.SimpleResponse]:
 @api.get("/papercups/{papercupId}")
 def getPapercupDetails(papercupId) -> papercupDto.DetailResponse:
     return papercupService.findByPapercupId(papercupId)
-    
+
+@api.post("/papercups")
+def getPapercupDetails(saveRequest: papercupDto.SaveRequest) -> papercupDto.SimpleResponse:
+    return papercupService.savePapercup(saveRequest)
