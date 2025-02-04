@@ -7,3 +7,8 @@ api = APIRouter()
 @api.get("/papercups")
 def getAllPapercups() -> list[papercupDto.SimpleResponse]:
     return papercupService.findAllPapercup()
+
+@api.get("/papercups/{papercupId}")
+def getPapercupDetails(papercupId) -> papercupDto.DetailResponse:
+    return papercupService.findByPapercupId(papercupId)
+    

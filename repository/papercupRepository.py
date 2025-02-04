@@ -29,3 +29,29 @@ def findAll():
     finally:
         cursor.close
         connection.close
+
+def findById(papercupId):
+    query = '''
+        SELECT *
+        FROM papercup as pc
+        WHERE pc.papercup_id = %s
+    '''
+    try:
+        connection = getDbConnection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(query, [papercupId])
+        result = cursor.fetchone()
+
+        return papercupDto.DetailResponse(
+                papercupId=result['papercup_id'], 
+                errorStatus=result['error_status'],
+                imageUrl=result['image_url'],
+                colorType=result['color_type'],
+                createdAt=result['created_at'],
+            )
+    except mysql.connector.Error as e:
+        raise HTTPException(status_code=500, detail=f"Error findByPapercupId(): {e}")
+    finally:
+        cursor.close
+        connection.close
