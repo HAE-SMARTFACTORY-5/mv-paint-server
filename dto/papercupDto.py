@@ -1,5 +1,5 @@
 from pydantic import NaiveDatetime, BaseModel
-from typing import Optional
+from typing import Optional, List
 
 class SimpleResponse(BaseModel):
     papercupId: int
@@ -10,9 +10,9 @@ class DetailResponse(BaseModel):
     papercupId: int
     errorStatus: bool
     imageUrl: str
-    errorType: list
+    errorType: Optional[List] = None
     createdAt: NaiveDatetime
 
 class SaveRequest(BaseModel):
     imageUrl: str
-    errorType: list
+    errorType: Optional[List] = None

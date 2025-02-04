@@ -9,7 +9,7 @@ ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif"} # 허용할 이미지 확
 
 api = APIRouter()
 
-@api.post("/upload")
+@api.post("/upload", summary="이미지 업로드", description="업로드 가능 확장자 : [.jpg, .jpeg, .png, .gif]")
 def upload_file(file: UploadFile = File(...)):
     # 이미지 파일 확장자 검증
     ext = os.path.splitext(file.filename)[1]  # 파일 확장자 추출

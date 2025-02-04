@@ -38,7 +38,7 @@ def findByPapercupId(papercupId):
 def savePapercup(saveRequest):
     # 불량 상태 설정
     errorStatus = False
-    if len(saveRequest.errorType) == 0 :
+    if saveRequest.errorType == None:
         errorStatus = True
 
     try:
