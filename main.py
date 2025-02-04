@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from routes import router
+from router import papercupRouter
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 app = FastAPI()
-app.include_router(router.api)
+app.include_router(papercupRouter.api)
 
 origins = ["*"]
 
