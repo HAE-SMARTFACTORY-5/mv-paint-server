@@ -13,6 +13,11 @@ class DetailResponse(BaseModel):
     errorType: Optional[List] = None
     createdAt: NaiveDatetime
 
+class StatisticsResponse(BaseModel):
+    totalCount: int
+    normalCount: int
+    errorCount: int
+
 class SaveRequest(BaseModel):
     imageUrl: str
     errorType: Optional[List] = None

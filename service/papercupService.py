@@ -1,9 +1,9 @@
 from fastapi import HTTPException
 from repository import papercupRepository
 from infra.database import getDbConnection
-import traceback
+from dto import papercupDto
 import logging
-import json
+
 
 logging.basicConfig(level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -14,10 +14,10 @@ def findAllPapercup():
         response = papercupRepository.findAll(connection)
         connection.commit()
         return response
-    except:
+    except Exception as e:
         connection.rollback()
-        logging.error(traceback.extract_stack())
-        raise HTTPException(status_code=500, detail=f"Error findAllPapercup() in papercupService: {traceback.format_exc()}")
+        logging.error(e)
+        raise HTTPException(status_code=500, detail=f"Error findAllPapercup() in papercupService: {e}")
     finally:
         connection.close
 
@@ -27,10 +27,10 @@ def findByPapercupId(papercupId):
         response = papercupRepository.findById(papercupId, connection)
         connection.commit()
         return response
-    except:
+    except Exception as e:
         connection.rollback()
-        logging.error(traceback.extract_stack())
-        raise HTTPException(status_code=500, detail=f"Error findAllPapercup() in papercupService: {traceback.format_exc()}")
+        logging.error(e)
+        raise HTTPException(status_code=500, detail=f"Error findByPapercupId() in papercupService: {e}")
     finally:
         connection.close
     
@@ -47,9 +47,25 @@ def savePapercup(saveRequest):
         response = papercupRepository.findResent(connection)
         connection.commit()
         return response
-    except:
+    except Exception as e:
         connection.rollback()
-        logging.error(traceback.extract_stack())
-        raise HTTPException(status_code=500, detail=f"Error findAllPapercup() in papercupService: {traceback.format_exc()}")
+        logging.error(e)
+        raise HTTPException(status_code=500, detail=f"Error savePapercup() in papercupService: {e}")
+    finally:
+        connection.close
+
+def getStatisticalData():
+    try:
+        connection = getDbConnection()
+        totalPapercups = papercupRepository.findAll(connection)
+        nomalPapercups = list(filter(lambda papercup: papercup.errorStatus == False, totalPapercups))
+        errorPapercups = list(filter(lambda papercup: papercup.errorStatus == True, totalPapercups))
+        response = papercupDto.StatisticsResponse(totalCount=len(totalPapercups), normalCount=len(nomalPapercups), errorCount=len(errorPapercups))
+        connection.commit()
+        return response
+    except Exception as e:
+        connection.rollback()
+        logging.error(e)
+        raise HTTPException(status_code=500, detail=f"Error getStatisticalData() in papercupService: {e}")
     finally:
         connection.close

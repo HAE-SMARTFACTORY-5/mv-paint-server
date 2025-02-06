@@ -8,9 +8,13 @@ api = APIRouter()
 def getAllPapercups() -> list[papercupDto.SimpleResponse]:
     return papercupService.findAllPapercup()
 
-@api.get("/{papercupId}", summary="종이컵 데이터 상세조회")
-def getPapercupDetails(papercupId) -> papercupDto.DetailResponse:
+@api.get("/detail/{papercupId}", summary="종이컵 데이터 상세조회")
+def getPapercupDetails(papercupId: int) -> papercupDto.DetailResponse:
     return papercupService.findByPapercupId(papercupId)
+
+@api.get("/statistics", summary="종이컵 정상/불량 개수 조회")
+def getPapercupDetails() -> papercupDto.StatisticsResponse:
+    return papercupService.getStatisticalData()
 
 @api.post("", summary="종이컵 데이터 저장", description="errorType이 없을 경우 null로 전달")
 def getPapercupDetails(saveRequest: papercupDto.SaveRequest) -> papercupDto.SimpleResponse:
