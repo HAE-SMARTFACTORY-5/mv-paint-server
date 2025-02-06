@@ -12,10 +12,8 @@ def findAll(connection):
     '''
     try:
         cursor = connection.cursor(dictionary=True)
-
         cursor.execute(query)
         results = cursor.fetchall()
-
         return [
             papercupDto.SimpleResponse(
                 papercupId=row['papercup_id'], 
@@ -36,9 +34,9 @@ def findById(papercupId, connection):
     '''
     try:
         cursor = connection.cursor(dictionary=True)
-
         cursor.execute(query, [papercupId])
         result = cursor.fetchone()
+        print(result)
 
         return papercupDto.DetailResponse(
                 papercupId=result['papercup_id'], 
